@@ -52,8 +52,8 @@ void matrix_sum(double** x, double** y, int dim) {
 double vector_product_matrix(double **x, double **y, int dim) {
     int i, j;
     double prod = 0.;
-    for(i = 0; i < dim; i++)
-        for(j = 0; j < dim; j++)
+    for(i = 1; i < dim-1; i++)
+        for(j = 1; j < dim-1; j++)
             prod += x[i][j]*y[i][j];
     return prod;
 }
@@ -77,4 +77,11 @@ void print_matrix(double **A, int n, int m) {
         printf("\n");
     }
     printf("\n");
+}
+
+void fill_zeroes(int n, double **A) {
+    int i, j;
+    for(i = 0; i < n; ++i) 
+        for(j = 1; j < n-1; j++) 
+            A[i][j] = 0;
 }

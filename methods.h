@@ -14,7 +14,7 @@ double boundary_values(double **A, double t, double h, int dim, int option) {
     }
 }
 
-double crank_nicloson(double **u, double h, double t, double dt, int dim, double tol, int option) {
+double crank_nicloson(double **u, double h, double dt, int dim, double tol, int option) {
     int i, j;
     double alpha = dt/(2*h*h);
     for(i = 0; i < dim; i++)
@@ -22,24 +22,24 @@ double crank_nicloson(double **u, double h, double t, double dt, int dim, double
             u[i][j] += 2*(1-2*alpha)*u[i][j] + alpha*(u[i+1][j]+u[i-1][j]+u[i][j+1]+u[i][j-1]);
 }
 
-double conjugated_gradient(double **A, double tol, int dim, double h, double t, int option) {
+double conjugated_gradient(double **A, double tol, int dim, double h, double t, double dt, int option) {
+    // Iterator helpers
     int i, j, it_num = 0;
+    // Auxiliar matrices
     double **p, **q, **r;
+    // Auxiliar doubles
     double alpha, beta, pre_norm, post_norm;
-
+    // Store the matrices
     p = store_matrix(dim+2, dim+2);
     q = store_matrix(dim+2, dim+2);
     r = store_matrix(dim+2, dim+2);
-
     // Store A·r in r
     special_product(r, A, dim+2);
-    // Iteration number 0:
-    for(i = 0; i < dim+1; i++) {
-        for(j = 0; j < dim+1; j++) {
-            r[i][j] = h*h*f(t, h*i, h*j, option) - r[i][j];
-            p[i][j] = r[i][j];
-        }
-    }
+    // Iteration number 0: we create the matrix...
+    // First the boundary values
+    boundary_values(A, t, h, dim, option);
+    // And then the Crank-Nicolson iterations
+    crank_nicloson(A, h, dt, dim, tol, option);
     // Iterations of CG method
     do {
         // Now q = A·p and p remains p
@@ -67,5 +67,9 @@ double conjugated_gradient(double **A, double tol, int dim, double h, double t, 
         it_num++;
     // Finishing condition of the method itself
     } while(post_norm >= tol*tol);
+    // Free all the memory
+    free_matrix(p, dim+2);
+    free_matrix(q, dim+2);
+    free_matrix(r, dim+2);
     return it_num;
 }

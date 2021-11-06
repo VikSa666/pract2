@@ -1,12 +1,17 @@
 #include "methods.h"
 
 
-void main_process(double**, double**, double, int, double, double, int, int);
+void main_process(double**, double**, double, int, double, double, int, int, FILE*);
 
 int main(void) {
     // Declare the matrix which will be used, the dimension and some other variables
     int dimension, option, time_discretization;
     double **u, **v, tol, h, delta_t, max_time;
+    FILE *f = fopen("results.txt", "w");
+    if(f == NULL) {
+        printf("Error opening out file.\n");
+        exit(-1);   
+    }
 
     // Ask for some constants by terminal to the user
     printf("Choose exercise 1 or 2: ");
@@ -40,7 +45,7 @@ int main(void) {
     }
     delta_t = max_time/time_discretization;
     // Execute the main process
-    main_process(u, v, tol, dimension+2, h, delta_t, time_discretization, option);
+    main_process(u, v, tol, dimension+2, h, delta_t, time_discretization, option, f);
     // Free memory and finish
     free_matrix(u, dimension+2);
     free_matrix(v, dimension+2);
@@ -52,7 +57,7 @@ int main(void) {
  * interval of the shape [0,T]. If we choose N points on the interval, then the algorithm of Crank
  * Nicolson will be executed N times, so it is a very great deal of operations and processes
  **/
-void main_process(double** A, double** B, double tol, int dim, double h, double dt, int N, int option) {
+void main_process(double** A, double** B, double tol, int dim, double h, double dt, int N, int option, FILE *f) {
     // Our iterator and auxiliar variable to print out results
     int time_iter, it;
     // This is to iterate over time
@@ -71,6 +76,6 @@ void main_process(double** A, double** B, double tol, int dim, double h, double 
         // Calculate the error
         error = error_method(A, h, dt_prev, dim, option);
         // Print everything
-        printf("Time = %.5le\tIterations = %d\tError = %.12le\n", dt_prev, it, error);
+        fprintf(f, "Time = %.5le \tIterations = %d \tError = %.12le\n", dt_prev, it, error);
     }
 }

@@ -5,9 +5,25 @@
 #define PI 4*atan(1)
 
 double f(double t, double x, double y, int option) {
-    return (cos(t)+8*PI*PI*sin(t))*sin(2*PI*x)*cos(2*PI*y);
+    switch (option) {
+    case 1:
+        return (cos(t)+8*PI*PI*sin(t))*sin(2*PI*x)*cos(2*PI*y);
+        break;
+    
+    case 2:
+        return 0;
+        break;
+    }
 }
 
 double g(double t, double x, double y, int option) {
-    return sin(2*PI*x)*cos(2*PI*y)*sin(t);
+    switch (option) {
+    case 1:
+        return sin(2*PI*x)*cos(2*PI*y)*sin(t);
+        break;
+    
+    case 2:
+        return 1;
+        break;
+    }
 }

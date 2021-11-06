@@ -10,21 +10,17 @@ int main(void) {
 
     // Ask for some constants by terminal to the user
     printf("Choose exercise 1 or 2: ");
-    // scanf("%d", &option);
-    option = 1;
+    scanf("%d", &option);
     if(option != 1 && option != 2) {
         printf("Those are not valid exercises...exiting program.\n");
         exit(1);
     }
-    printf("Dimension: ");
-    //scanf("%d", &dimension);
-    dimension = 2;
+    printf("Dimension of grid: ");
+    scanf("%d", &dimension);
     printf("Tolerance: ");
-    // scanf("%le", &tol);
-    tol = 1e-6;
+    scanf("%le", &tol);
     printf("Time discretization: ");
-    // scanf("%d", &time_discretization);
-    time_discretization = 100;
+    scanf("%d", &time_discretization);
     printf("\n");
 
     // Initialize the variables
@@ -43,9 +39,8 @@ int main(void) {
         break;
     }
     delta_t = max_time/time_discretization;
-    conjugated_gradient(u, v, tol, dimension+2, h, 1, delta_t, option);
     // Execute the main process
-    // main_process(u, tol, dimension+2, h, delta_t, time_discretization, option);
+    main_process(u, v, tol, dimension+2, h, delta_t, time_discretization, option);
     // Free memory and finish
     free_matrix(u, dimension+2);
     free_matrix(v, dimension+2);

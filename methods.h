@@ -55,29 +55,23 @@ double conjugated_gradient(double** A, double**B, double tol, int dim, double h,
     // And then the Crank-Nicolson iterations, solution stored in r
     crank_nicloson(A, r, h, dt, dim, t, tol, option);
     for(i = 0; i < dim; i++) for(j = 0; j < dim; j++) p[i][j] = r[i][j];
-    print_matrix(p, dim, dim);
-    print_matrix(q, dim, dim);
-    print_matrix(r, dim, dim);
     // This is to save execution time
     post_norm = vector_product_matrix(r, r, dim);
     // Iterations of CG method
     do {
         // Now q = A·p and p remains p
         special_product(p, q, dim);
-        print_matrix(q, dim, dim);
         // I define this to save time on implementing the function
         pre_norm = post_norm;
         // p^T·A·p in denominator
         alpha = (-1.*pre_norm)/vector_product_matrix(p, q, dim);
         // Update values of A and r in the iteration k+1
-        printf("Esto es imposible = %le + %le = %le\n", q[1][1]*alpha, r[1][1], q[1][1]*alpha+r[1][1]);
         for(i = 1; i < dim-1; i++) {
             for(j = 1; j < dim-1; j++) {
                 B[i][j] -= alpha*p[i][j];
                 r[i][j] = alpha*q[i][j] + r[i][j];
             }
         }
-        print_matrix(r, dim, dim);
         // Now we calculate norm_post, after the update, to calculate beta
         post_norm = vector_product_matrix(r, r, dim);
         // Now we calculate beta
@@ -87,12 +81,8 @@ double conjugated_gradient(double** A, double**B, double tol, int dim, double h,
             for(j = 1; j < dim-1; j++)
                 p[i][j] = r[i][j] + beta * p[i][j];
         // Acumulate the number of iterations
-        print_matrix(p, dim, dim);
-        print_matrix(q, dim, dim);
-        print_matrix(r, dim, dim);
         it_num++;
         // Finishing condition of the method itself
-        printf("Norm_post = %le\n", post_norm);
     } while(post_norm >= tol*tol);
 
     // Free all the memory

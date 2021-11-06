@@ -1,6 +1,6 @@
 #include "functions.h"
 
-
+// Function that stores a matrix with given dimensions
 double **store_matrix(int rows, int cols) {
     double **A;
     int i;
@@ -19,12 +19,14 @@ double **store_matrix(int rows, int cols) {
     return A;
 }
 
+// Function that frees the memory of a matrix
 void free_matrix(double** A, int cols) {
     int i;
     for(i = 0; i < cols; i++) free(A[i]);
     free(A);
 }
 
+// Function that implements the "special product" of the method
 void special_product(double** mat, double** x, int dim) {
     int i, j;
     for(i = 1; i < dim-1; i++)
@@ -32,6 +34,7 @@ void special_product(double** mat, double** x, int dim) {
             x[i][j] = 4*mat[i][j] - mat[i-1][j] - mat[i+1][j] - mat[i][j-1] - mat[i][j+1];
 }
 
+// Function that implements the ∞-norm of a matrix
 double sup_norm(double** x, double dim) {
     int i, j;
     double norm = 0.;
@@ -42,13 +45,7 @@ double sup_norm(double** x, double dim) {
     return norm;
 }
 
-void matrix_sum(double** x, double** y, int dim) {
-    int i, j;
-    for(i = 0; i < dim; i++)
-        for(j = 0; j < dim; j++)
-            x[i][j] += y[i][j];
-}
-
+// Function that calculates the dot product of two vectors given in matrix-shape
 double vector_product_matrix(double **x, double **y, int dim) {
     int i, j;
     double prod = 0.;
@@ -58,6 +55,7 @@ double vector_product_matrix(double **x, double **y, int dim) {
     return prod;
 }
 
+// Key function to calculate the error (notice that the result is given by the enunciate)
 double error_method(double** A, double h, double t, int dim, int option) {
     int i, j;
     double error = 0.;
@@ -68,6 +66,7 @@ double error_method(double** A, double h, double t, int dim, int option) {
     return error;
 }
 
+// Function to print out matrices in a fancy way
 void print_matrix(double **A, int n, int m) {
     int i, j;
     for(i = 0; i < n; i++) {
@@ -79,6 +78,7 @@ void print_matrix(double **A, int n, int m) {
     printf("\n");
 }
 
+// Function to just fill of zeroes a matrix
 void fill_zeroes(int n, double **A) {
     int i, j;
     for(i = 0; i < n; ++i) 

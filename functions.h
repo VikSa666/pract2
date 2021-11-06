@@ -14,6 +14,7 @@ double f(double t, double x, double y, int option) {
         return 0;
         break;
     }
+    return 0;
 }
 
 double g(double t, double x, double y, int option) {
@@ -26,4 +27,5 @@ double g(double t, double x, double y, int option) {
         return 1;
         break;
     }
+    return 0;
 }

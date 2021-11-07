@@ -1,9 +1,9 @@
 # Pràctica 2: Crank-Nicolson method for diffusion equation
 
-This repository contains the program that implements the Crank-Nicolson method to solve the equation
+This repository contains the program that implements the Crank-Nicolson method to solve the equation, given a domain 
 ```
-du/dt - ∆u = f(t,x,y)
-u = g(t,x,y)
+du/dt - ∆u = f(t,x,y) for (x,y) in 
+u = g(t,x,y)          for (x,y) in ∂
 ```
 with _f_ and _g_ given in each exercise.
 
